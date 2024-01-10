@@ -33,6 +33,13 @@ const upload = multer({ storage: storage });
 
 app.use(express.json());
 app.use(cors());
+const corsMiddleware=((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://pdf-builder-three.vercel.app');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
+app.use(corsMiddleware)
 //The below middleware serve static files to frontend.
 app.use("/uploads", express.static("uploads"));
 
