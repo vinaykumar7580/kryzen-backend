@@ -11,12 +11,7 @@ const { dataRouter } = require("./routes/data.routes");
 
 const app = express();
 
-app.use(express.json());
-app.use(cors())
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  next();
-});
+
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -37,6 +32,12 @@ const storage = multer.diskStorage({
 
 // used built-in module Multer as a middleware for handling file uploads and stored images in uploads directory
 const upload = multer({ storage: storage });
+app.use(express.json());
+app.use(cors())
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+});
 
 
 //The below middleware serve static files to frontend.
@@ -54,7 +55,10 @@ app.post("/add-data", upload.single("photo"), async (req, res) => {
   const token = req.headers.authorization;
   const decoded = jwt.verify(token, "masai");
   const { name, age, address } = req.body;
-  const photo = req.file.filename;
+ 
+  const photo = req.file ? req.file.filename : null;
+  console.log(name)
+  console.log(req.file)
 
   try {
     if(decoded){
