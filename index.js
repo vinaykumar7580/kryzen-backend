@@ -75,10 +75,13 @@ app.post("/add-data", async (req, res) => {
   const decoded = jwt.verify(token, "masai");
   const { name, age, address } = req.body;
   //const photo = req.file.filename;
+  const photo="vinay"
+
+  console.log(req.body)
 
   try {
     if(decoded){
-        let data=new DataModel({name,age, address, userId:decoded.userId})
+        let data=new DataModel({name,age, address,photo, userId:decoded.userId})
         await data.save()
         res.status(200).send({msg:"Data Added Successfully"})
 
