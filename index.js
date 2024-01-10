@@ -11,6 +11,13 @@ const { dataRouter } = require("./routes/data.routes");
 
 const app = express();
 
+app.use(express.json());
+app.use(cors({
+  origin: 'https://pdf-builder-three.vercel.app',
+  methods: 'GET, POST, PUT, DELETE',
+  allowedHeaders: 'Content-Type',
+}));
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const uploadDir = path.join(__dirname, "uploads");
@@ -31,15 +38,7 @@ const storage = multer.diskStorage({
 // used built-in module Multer as a middleware for handling file uploads and stored images in uploads directory
 const upload = multer({ storage: storage });
 
-app.use(express.json());
-app.use(cors());
-const corsMiddleware=((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://pdf-builder-three.vercel.app');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  next();
-});
-app.use(corsMiddleware)
+
 //The below middleware serve static files to frontend.
 app.use("/uploads", express.static("uploads"));
 
