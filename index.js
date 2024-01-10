@@ -50,15 +50,35 @@ app.use("/data", dataRouter)
 
 
 // /add-data route Added data to database using post request
-app.post("/add-data", upload.single("photo"), async (req, res) => {
+// app.post("/add-data", upload.single("photo"), async (req, res) => {
+//   const token = req.headers.authorization;
+//   const decoded = jwt.verify(token, "masai");
+//   const { name, age, address } = req.body;
+//   const photo = req.file.filename;
+
+//   try {
+//     if(decoded){
+//         let data=new DataModel({name,age,address, photo, userId:decoded.userId})
+//         await data.save()
+//         res.status(200).send({msg:"Data Added Successfully"})
+
+//     }else{
+//         res.status(500).send({msg:"Please Login First"})
+//     }
+//   } catch (err) {
+//     res.status(500).json({ error: err });
+//   }
+// });
+
+app.post("/add-data", async (req, res) => {
   const token = req.headers.authorization;
   const decoded = jwt.verify(token, "masai");
   const { name, age, address } = req.body;
-  const photo = req.file.filename;
+  //const photo = req.file.filename;
 
   try {
     if(decoded){
-        let data=new DataModel({name,age,address, photo, userId:decoded.userId})
+        let data=new DataModel({name,age, address, userId:decoded.userId})
         await data.save()
         res.status(200).send({msg:"Data Added Successfully"})
 
