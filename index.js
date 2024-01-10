@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(cors({
   origin: 'https://pdf-builder-three.vercel.app',
   methods: 'GET, POST, PUT, DELETE',
-  allowedHeaders: 'Content-Type',
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 const storage = multer.diskStorage({
