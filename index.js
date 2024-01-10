@@ -34,11 +34,11 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 app.use(express.json());
 app.use(cors({
-  origin: 'https://pdf-builder-three.vercel.app/', // Replace with the origin(s) you want to allow
+  origin: '*', // Replace with the origin(s) you want to allow
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allowed HTTP methods
     allowedHeaders: 'Content-Type,Authorization', // Allowed HTTP headers
-    credentials: true, // Whether to allow sending cookies
-    optionsSuccessStatus: 200 // For legacy browser support
+    //credentials: true, // Whether to allow sending cookies
+    //optionsSuccessStatus: 200 // For legacy browser support
 }))
 // app.use((req, res, next) => {
 //   res.header('Access-Control-Allow-Origin', '*');
