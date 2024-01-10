@@ -33,11 +33,18 @@ const storage = multer.diskStorage({
 // used built-in module Multer as a middleware for handling file uploads and stored images in uploads directory
 const upload = multer({ storage: storage });
 app.use(express.json());
-app.use(cors())
+app.use(cors({
+  origin: 'https://pdf-builder-three.vercel.app/', // Replace with the origin(s) you want to allow
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allowed HTTP methods
+    allowedHeaders: 'Content-Type,Authorization', // Allowed HTTP headers
+    credentials: true, // Whether to allow sending cookies
+    optionsSuccessStatus: 200 // For legacy browser support
+}))
 // app.use((req, res, next) => {
 //   res.header('Access-Control-Allow-Origin', '*');
 //   next();
 // });
+
 
 
 //The below middleware serve static files to frontend.
