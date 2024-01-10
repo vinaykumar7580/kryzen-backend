@@ -13,7 +13,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-  origin: 'https://pdf-builder-three.vercel.app',
+  origin: '*',
   methods: 'GET, POST, PUT, DELETE',
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
