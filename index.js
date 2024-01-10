@@ -12,11 +12,11 @@ const { dataRouter } = require("./routes/data.routes");
 const app = express();
 
 app.use(express.json());
-app.use(cors({
-  origin: '*',
-  methods: 'GET, POST, PUT, DELETE',
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+app.use(cors())
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+});
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -50,38 +50,15 @@ app.use("/data", dataRouter)
 
 
 // /add-data route Added data to database using post request
-// app.post("/add-data", upload.single("photo"), async (req, res) => {
-//   const token = req.headers.authorization;
-//   const decoded = jwt.verify(token, "masai");
-//   const { name, age, address } = req.body;
-//   const photo = req.file.filename;
-
-//   try {
-//     if(decoded){
-//         let data=new DataModel({name,age,address, photo, userId:decoded.userId})
-//         await data.save()
-//         res.status(200).send({msg:"Data Added Successfully"})
-
-//     }else{
-//         res.status(500).send({msg:"Please Login First"})
-//     }
-//   } catch (err) {
-//     res.status(500).json({ error: err });
-//   }
-// });
-
-app.post("/add-data", async (req, res) => {
+app.post("/add-data", upload.single("photo"), async (req, res) => {
   const token = req.headers.authorization;
   const decoded = jwt.verify(token, "masai");
   const { name, age, address } = req.body;
-  //const photo = req.file.filename;
-  const photo="vinay"
-
-  console.log(req.body)
+  const photo = req.file.filename;
 
   try {
     if(decoded){
-        let data=new DataModel({name,age, address,photo, userId:decoded.userId})
+        let data=new DataModel({name,age,address, photo, userId:decoded.userId})
         await data.save()
         res.status(200).send({msg:"Data Added Successfully"})
 
@@ -92,6 +69,8 @@ app.post("/add-data", async (req, res) => {
     res.status(500).json({ error: err });
   }
 });
+
+
 
 
 //runing the server on port 8080
